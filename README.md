@@ -1,2 +1,2 @@
 # MixedModels
-Mixed models analysis group project
+This mixed models analysis course group project included designing an experiment, conducting the experiment on [The Islands](https://theislands.umn.edu/login.php), and analysis of results. This is an example of collaborative work and was one of my favorite projects from the CSU MAS program. [Read the report here](https://github.com/Zarah573/MixedModels/blob/main/IslandsReportGroup5.pdf).
