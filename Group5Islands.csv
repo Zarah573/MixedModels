@@ -1,0 +1,146 @@
+Island,First,Last,Age,Sex,Height (cm),Weight (kg),BMI,BirthVillage,TrtOrder,Treatment,Dept,HoursSleep,Forgetful,WornOut,Anxious,Comprehension,SubjectID
+Bonne Sante,Milana,Chunduri,29,F,153,44,18.8,Colmar,1,No Caffeine,Agriculture,6.25,A little,A little,7,65,32
+Bonne Sante,Milana,Chunduri,29,F,153,44,18.8,Colmar,2,Energy Drink,Agriculture,7.75,A little,Not at all,4.5,80,32
+Bonne Sante,Milana,Chunduri,29,F,153,44,18.8,Colmar,3,Control,Agriculture,7,Moderately,Not at all,3,59,32
+Bonne Sante,Milana,Chunduri,29,F,153,44,18.8,Colmar,4,No Sugar,Agriculture,7.25,A little,A little,5.5,71,32
+Bonne Sante,Kahaan,Mangal,56,M,174,59,19.49,Colmar,1,No Sugar,Agriculture,6.25,A little,Not at all,7.5,73,35
+Bonne Sante,Kahaan,Mangal,56,M,174,59,19.49,Colmar,2,Energy Drink,Agriculture,6.5,Moderately,Not at all,6.5,84,35
+Bonne Sante,Kahaan,Mangal,56,M,174,59,19.49,Colmar,3,Control,Agriculture,6.25,A little,Moderately,5.5,76,35
+Bonne Sante,Kahaan,Mangal,56,M,174,59,19.49,Colmar,4,No Caffeine,Agriculture,6.25,A little,A little,3.5,84,35
+Ironbard ,Shun,White,27,M,182.1,83,25,Vardo,1,No Sugar,Agriculture,6.5,Not at all,A little,6.5,76,20
+Ironbard ,Shun,White,27,M,182.1,83,25,Vardo,2,Energy Drink,Agriculture,6.5,Moderately,A little,6,85,20
+Ironbard ,Shun,White,27,M,182.1,83,25,Vardo,3,No Caffeine,Agriculture,6.75,Not at all,Not at all,4.5,81,20
+Ironbard ,Shun,White,27,M,182.1,83,25,Vardo,4,Control,Agriculture,6.5,A little,A little,5,77,20
+Providence ,Henri,Delacroix,56,M,175,77,25.1,Arcadia,1,No Sugar,Agriculture,8.25,Not at all,A little,4,91,9
+Providence ,Henri,Delacroix,56,M,175,77,25.1,Arcadia,2,Control,Agriculture,8,A little,A little,2.5,90,9
+Providence ,Henri,Delacroix,56,M,175,77,25.1,Arcadia,3,Energy Drink,Agriculture,7.5,Not at all,Not at all,5,96,9
+Providence ,Henri,Delacroix,56,M,175,77,25.1,Arcadia,4,No Caffeine,Agriculture,7.25,A little,Not at all,3.5,89,9
+Bonne Sante,Robert,Morris,26,M,175,68,22.2,Colmar,1,Control,Arts,6,A little,Not at all,6,88,29
+Bonne Sante,Robert,Morris,26,M,175,68,22.2,Colmar,2,Energy Drink,Arts,6.5,A little,Not at all,4.5,85,29
+Bonne Sante,Robert,Morris,26,M,175,68,22.2,Colmar,3,No Caffeine,Arts,6.25,A little,A little,3,89,29
+Bonne Sante,Robert,Morris,26,M,175,68,22.2,Colmar,4,No Sugar,Arts,6.5,Moderately,Not at all,5,84,29
+Ironbard ,Philipp,Sorensen,30,M,168.1,60.8,21.5,Hofn,1,Energy Drink,Arts,8,Not at all,Not at all,5.5,63,22
+Ironbard ,Philipp,Sorensen,30,M,168.1,60.8,21.5,Hofn,2,No Sugar,Arts,8,A little,A little,7.5,47,22
+Ironbard ,Philipp,Sorensen,30,M,168.1,60.8,21.5,Hofn,3,No Caffeine,Arts,7.75,A little,Not at all,2,69,22
+Ironbard ,Philipp,Sorensen,30,M,168.1,60.8,21.5,Hofn,4,Control,Arts,7,Not at all,Not at all,3,53,22
+Bonne Sante,Dheer,Dhawan,66,M,179,71,22.16,Colmar,1,Control,Business,6.5,A little,A little,5,60,26
+Bonne Sante,Dheer,Dhawan,66,M,179,71,22.16,Colmar,2,No Caffeine,Business,6.5,A little,A little,4.5,76,26
+Bonne Sante,Dheer,Dhawan,66,M,179,71,22.16,Colmar,3,No Sugar,Business,6.5,A little,A little,5.5,73,26
+Bonne Sante,Dheer,Dhawan,66,M,179,71,22.16,Colmar,4,Energy Drink,Business,6.5,A little,A little,6,84,26
+Providence ,Matthias,Blomgren,42,M,172,50,16.9,Arcadia,1,Control,Business,8.25,A little,A little,4.5,80,2
+Providence ,Matthias,Blomgren,42,M,172,50,16.9,Arcadia,2,No Caffeine,Business,8,A little,A little,3.5,81,2
+Providence ,Matthias,Blomgren,42,M,172,50,16.9,Arcadia,3,No Sugar,Business,8,A little,A little,5.5,74,2
+Providence ,Matthias,Blomgren,42,M,172,50,16.9,Arcadia,4,Energy Drink,Business,8,A little,Moderately,5.5,82,2
+Bonne Sante,Aveline,Eklund,26,F,174,66,21.8,Colmar,1,No Sugar,Education,7.5,Not at all,A little,8,69,25
+Bonne Sante,Aveline,Eklund,26,F,174,66,21.8,Colmar,2,No Caffeine,Education,7.25,A little,Not at all,5.5,84,25
+Bonne Sante,Aveline,Eklund,26,F,174,66,21.8,Colmar,3,Control,Education,7.5,A little,Not at all,6.5,78,25
+Bonne Sante,Aveline,Eklund,26,F,174,66,21.8,Colmar,4,Energy Drink,Education,7,Not at all,Not at all,8,80,25
+Ironbard ,Ketan,Agarwal,43,M,163.2,60.6,22.8,Buyan,1,Energy Drink,Education,7.25,A little,A little,5,66,21
+Ironbard ,Ketan,Agarwal,43,M,163.2,60.6,22.8,Buyan,2,Control,Education,8,A little,A little,4,61,21
+Ironbard ,Ketan,Agarwal,43,M,163.2,60.6,22.8,Buyan,3,No Sugar,Education,7.5,Not at all,A little,3.5,56,21
+Ironbard ,Ketan,Agarwal,43,M,163.2,60.6,22.8,Buyan,4,No Caffeine,Education,7.75,Not at all,A little,2,75,21
+Ironbard ,Berit,Eklund,31,F,164.6,63.4,23.4,Bjurholm,1,No Caffeine,Education,8,Not at all,A little,6.5,100,23
+Ironbard ,Berit,Eklund,31,F,164.6,63.4,23.4,Bjurholm,2,Control,Education,8,A little,A little,4,97,23
+Ironbard ,Berit,Eklund,31,F,164.6,63.4,23.4,Bjurholm,3,No Sugar,Education,7.75,A little,A little,4.5,95,23
+Ironbard ,Berit,Eklund,31,F,164.6,63.4,23.4,Bjurholm,4,Energy Drink,Education,7.75,A little,A little,7.5,100,23
+Providence ,Kenta,Morris,43,M,189,98,27.4,Arcadia,1,No Caffeine,Education,8,Not at all,A little,5,95,7
+Providence ,Kenta,Morris,43,M,189,98,27.4,Arcadia,2,Control,Education,8,Not at all,A little,4.5,88,7
+Providence ,Kenta,Morris,43,M,189,98,27.4,Arcadia,3,Energy Drink,Education,8,A little,Not at all,4.5,96,7
+Providence ,Kenta,Morris,43,M,189,98,27.4,Arcadia,4,No Sugar,Education,8,A little,Not at all,4,91,7
+Bonne Sante,Stephanie,Wilson,28,F,176,76,24.54,Colmar,1,No Sugar,Health,7,Not at all,Not at all,9.5,87,28
+Bonne Sante,Stephanie,Wilson,28,F,176,76,24.54,Colmar,2,Energy Drink,Health,7.5,A little,A little,8.5,94,28
+Bonne Sante,Stephanie,Wilson,28,F,176,76,24.54,Colmar,3,Control,Health,6.75,A little,A little,4.5,83,28
+Bonne Sante,Stephanie,Wilson,28,F,176,76,24.54,Colmar,4,No Caffeine,Health,7.5,Not at all,A little,5,91,28
+Bonne Sante,Lisle,Ibsen,35,F,167,49,17.57,Colmar,1,Control,Health,8,A little,A little,9.5,98,34
+Bonne Sante,Lisle,Ibsen,35,F,167,49,17.57,Colmar,2,No Sugar,Health,8,A little,A little,5.5,97,34
+Bonne Sante,Lisle,Ibsen,35,F,167,49,17.57,Colmar,3,Energy Drink,Health,7.75,Moderately,Moderately,5.5,96,34
+Bonne Sante,Lisle,Ibsen,35,F,167,49,17.57,Colmar,4,No Caffeine,Health,7.75,Not at all,A little,3,98,34
+Ironbard ,Kerstin,Sorensen,27,F,166.5,73.4,26.5,Hofn,1,Control,Health,7.5,Not at all,Not at all,3,84,15
+Ironbard ,Kerstin,Sorensen,27,F,166.5,73.4,26.5,Hofn,2,No Sugar,Health,7.5,Not at all,Moderately,7.5,84,15
+Ironbard ,Kerstin,Sorensen,27,F,166.5,73.4,26.5,Hofn,3,No Caffeine,Health,7.5,A little,A little,5.5,89,15
+Ironbard ,Kerstin,Sorensen,27,F,166.5,73.4,26.5,Hofn,4,Energy Drink,Health,7.5,Not at all,A little,8,87,15
+Ironbard ,Jasmin,Blomgren,23,F,178.6,60.2,18.9,Helluland,1,No Sugar,Health,7.25,A little,Not at all,6.5,96,17
+Ironbard ,Jasmin,Blomgren,23,F,178.6,60.2,18.9,Helluland,2,Control,Health,7.25,A little,A little,5.5,89,17
+Ironbard ,Jasmin,Blomgren,23,F,178.6,60.2,18.9,Helluland,3,Energy Drink,Health,7.5,A little,Not at all,7,99,17
+Ironbard ,Jasmin,Blomgren,23,F,178.6,60.2,18.9,Helluland,4,No Caffeine,Health,7.75,A little,A little,4.5,98,17
+Ironbard ,Daiki,Burke,29,M,174,66,21.8,NA,NA,Control,Health,NA,NA,NA,NA,NA,14*
+Providence ,Mayu,Wilson,32,F,166,58,21,Arcadia,1,Control,Health,8,A little,Not at all,5,69,6
+Providence ,Mayu,Wilson,32,F,166,58,21,Arcadia,2,Energy Drink,Health,8.5,A little,Not at all,7.5,90,6
+Providence ,Mayu,Wilson,32,F,166,58,21,Arcadia,3,No Caffeine,Health,8.25,Not at all,Not at all,4.5,84,6
+Providence ,Mayu,Wilson,32,F,166,58,21,Arcadia,4,No Sugar,Health,8,Not at all,A little,9,69,6
+Providence ,Hanne,Sorensen,45,F,175,82,26.4,Arcadia,1,Control,Health,7.75,Not at all,A little,3.5,92,10
+Providence ,Hanne,Sorensen,45,F,175,82,26.4,Arcadia,2,No Caffeine,Health,8,A little,Moderately,2.5,95,10
+Providence ,Hanne,Sorensen,45,F,175,82,26.4,Arcadia,3,Energy Drink,Health,7.75,A little,A little,7.5,93,10
+Providence ,Hanne,Sorensen,45,F,175,82,26.4,Arcadia,4,No Sugar,Health,7.5,A little,A little,7,90,10
+Providence ,Shinta,Hayashi,59,M,182,60,18.1,Arcadia,1,No Sugar,Health,8.75,Moderately,A little,5,97,11
+Providence ,Shinta,Hayashi,59,M,182,60,18.1,Arcadia,2,Control,Health,8.25,A little,Not at all,4.5,92,11
+Providence ,Shinta,Hayashi,59,M,182,60,18.1,Arcadia,3,No Caffeine,Health,9,A little,Moderately,2,99,11
+Providence ,Shinta,Hayashi,59,M,182,60,18.1,Arcadia,4,Energy Drink,Health,8.75,A little,A little,,99,11
+Providence ,Hironobu,Erikawa,60,M,178,45,14.2,Arcadia,1,Energy Drink,Health,8.5,Not at all,A little,6.5,74,12
+Providence ,Hironobu,Erikawa,60,M,178,45,14.2,Arcadia,2,No Caffeine,Health,8.75,Not at all,A little,5,86,12
+Providence ,Hironobu,Erikawa,60,M,178,45,14.2,Arcadia,3,Control,Health,9,A little,A little,3,66,12
+Providence ,Hironobu,Erikawa,60,M,178,45,14.2,Arcadia,4,No Sugar,Health,9,Not at all,Not at all,5,82,12
+Bonne Sante,Jacqueline,Connolly,24,F,167,47,16.85,Colmar,1,Control,Law,7.25,Moderately,Not at all,7.5,94,30
+Bonne Sante,Jacqueline,Connolly,24,F,167,47,16.85,Colmar,2,Energy Drink,Law,8,Moderately,Not at all,8,97,30
+Bonne Sante,Jacqueline,Connolly,24,F,167,47,16.85,Colmar,3,No Sugar,Law,7.5,A little,A little,8.5,97,30
+Bonne Sante,Jacqueline,Connolly,24,F,167,47,16.85,Colmar,4,No Caffeine,Law,7.75,A little,A little,6,93,30
+Ironbard ,Tobias,Solberg,24,M,182.3,83.3,25.1,Helvig,1,Energy Drink,Law,7,A little,Not at all,5.5,96,18
+Ironbard ,Tobias,Solberg,24,M,182.3,83.3,25.1,Helvig,2,No Caffeine,Law,7,Not at all,A little,4.5,92,18
+Ironbard ,Tobias,Solberg,24,M,182.3,83.3,25.1,Helvig,3,No Sugar,Law,6.75,Not at all,Not at all,6.5,90,18
+Ironbard ,Tobias,Solberg,24,M,182.3,83.3,25.1,Helvig,4,Control,Law,7,Not at all,Not at all,4,90,18
+Ironbard ,Halden,Eklund,31,M,181,84.5,25.8,Helvig,1,No Sugar,Law,7.5,Moderately,A little,4.5,91,19
+Ironbard ,Halden,Eklund,31,M,181,84.5,25.8,Helvig,2,Energy Drink,Law,7,A little,Not at all,6.5,95,19
+Ironbard ,Halden,Eklund,31,M,181,84.5,25.8,Helvig,3,No Caffeine,Law,7.5,A little,A little,4.5,97,19
+Ironbard ,Halden,Eklund,31,M,181,84.5,25.8,Helvig,4,Control,Law,7.5,Moderately,A little,5,85,19
+Bonne Sante,Pranay,Mishra,68,M,176,86,27.76,Colmar,1,Energy Drink,Literature,7.5,A little,A little,6.5,82,27
+Bonne Sante,Pranay,Mishra,68,M,176,86,27.76,Colmar,2,Control,Literature,7.25,Not at all,A little,4.5,66,27
+Bonne Sante,Pranay,Mishra,68,M,176,86,27.76,Colmar,3,No Caffeine,Literature,NA,NA,NA,NA,NA,27
+Bonne Sante,Pranay,Mishra,68,M,176,86,27.76,Colmar,4,No Sugar,Literature,NA,NA,NA,NA,NA,27
+Bonne Sante,Karina,Sorensen,44,F,160,24,9.38,Colmar,1,Control,Literature,7.75,A little,A little,7,74,31
+Bonne Sante,Karina,Sorensen,44,F,160,24,9.38,Colmar,2,Energy Drink,Literature,7.5,A little,A little,8.5,88,31
+Bonne Sante,Karina,Sorensen,44,F,160,24,9.38,Colmar,3,No Sugar,Literature,7.75,A little,A little,8,78,31
+Bonne Sante,Karina,Sorensen,44,F,160,24,9.38,Colmar,4,No Caffeine,Literature,7.5,A little,A little,5.5,87,31
+Bonne Sante,Eve,Connolly,47,F,164,67,24.91,Colmar,1,No Sugar,Literature,7.75,A little,A little,9.5,89,33
+Bonne Sante,Eve,Connolly,47,F,164,67,24.91,Colmar,2,No Caffeine,Literature,7.75,Quite a bit,A little,3,94,33
+Bonne Sante,Eve,Connolly,47,F,164,67,24.91,Colmar,3,Control,Literature,7.5,A little,Not at all,4.5,91,33
+Bonne Sante,Eve,Connolly,47,F,164,67,24.91,Colmar,4,Energy Drink,Literature,7.75,A little,A little,5,96,33
+Providence ,Denis,Herbert,52,M,170,52,18,Arcadia,1,No Caffeine,Literature,8.25,Not at all,Moderately,3.5,91,4
+Providence ,Denis,Herbert,52,M,170,52,18,Arcadia,2,Energy Drink,Literature,8,A little,Extreme,4,91,4
+Providence ,Denis,Herbert,52,M,170,52,18,Arcadia,3,No Sugar,Literature,8.25,A little,Moderately,5.5,80,4
+Providence ,Denis,Herbert,52,M,170,52,18,Arcadia,4,Control,Literature,7.75,A little,Quite a bit,2.5,84,4
+Providence ,Hama,McCarthy,30,M,188,92,26,Arcadia,1,Energy Drink,Literature,7.75,A little,A little,4.5,97,5
+Providence ,Hama,McCarthy,30,M,188,92,26,Arcadia,2,No Caffeine,Literature,7.75,A little,Moderately,2.5,98,5
+Providence ,Hama,McCarthy,30,M,188,92,26,Arcadia,3,Control,Literature,7.75,A little,Not at all,6,93,5
+Providence ,Hama,McCarthy,30,M,188,92,26,Arcadia,4,No Sugar,Literature,7.25,A little,A little,5,98,5
+Ironbard ,Lara,Solberg,35,F,169.4,55.3,19.3,Arcadia,1,No Caffeine,Mathematics,7.75,Not at all,Not at all,7,90,24
+Ironbard ,Lara,Solberg,35,F,169.4,55.3,19.3,Arcadia,2,No Sugar,Mathematics,7.75,Not at all,Not at all,8,83,24
+Ironbard ,Lara,Solberg,35,F,169.4,55.3,19.3,Arcadia,3,Energy Drink,Mathematics,7.5,A little,A little,8,92,24
+Ironbard ,Lara,Solberg,35,F,169.4,55.3,19.3,Arcadia,4,Control,Mathematics,7.25,A little,A little,7,81,24
+Providence ,Hakan,Bager,48,M,179,55,17.2,Arcadia,1,Energy Drink,Mathematics,8.75,Moderately,A little,5,86,8
+Providence ,Hakan,Bager,48,M,179,55,17.2,Arcadia,2,No Sugar,Mathematics,8.5,A little,A little,4,93,8
+Providence ,Hakan,Bager,48,M,179,55,17.2,Arcadia,3,No Caffeine,Mathematics,8.5,Moderately,A little,3,89,8
+Providence ,Hakan,Bager,48,M,179,55,17.2,Arcadia,4,Control,Mathematics,8.5,A little,Not at all,4,85,8
+Ironbard ,Sabine,Vogel,40,F,163.8,54.9,20.5,Tapte Fjell,1,Control,Arts,7.25,Not at all,Not at all,6,99,14
+Ironbard ,Sabine,Vogel,40,F,163.8,54.9,20.5,Tapte Fjell,2,No Sugar,Arts,8,Not at all,A little,8.5,97,14
+Ironbard ,Sabine,Vogel,40,F,163.8,54.9,20.5,Tapte Fjell,3,Energy Drink,Arts,7.5,Not at all,A little,8,99,14
+Ironbard ,Sabine,Vogel,40,F,163.8,54.9,20.5,Tapte Fjell,4,No Caffeine,Arts,7.5,A little,A little,8,100,14
+Bonne Sante,Ketan,Saha,31,M,178,50,15.78,Colmar,1,Energy Drink,Science,6.75,Not at all,A little,7,98,36
+Bonne Sante,Ketan,Saha,31,M,178,50,15.78,Colmar,2,No Sugar,Science,7,A little,A little,5.5,94,36
+Bonne Sante,Ketan,Saha,31,M,178,50,15.78,Colmar,3,No Caffeine,Science,7,Not at all,Moderately,3,96,36
+Bonne Sante,Ketan,Saha,31,M,178,50,15.78,Colmar,4,Control,Science,7,Not at all,Moderately,4,96,36
+Ironbard ,Beatrix,Riedel,40,F,156.2,49.9,20.5,Tapte Fjell,1,No Caffeine,Science,7.5,A little,A little,3,94,16
+Ironbard ,Beatrix,Riedel,40,F,156.2,49.9,20.5,Tapte Fjell,2,No Sugar,Science,7.75,A little,A little,6,94,16
+Ironbard ,Beatrix,Riedel,40,F,156.2,49.9,20.5,Tapte Fjell,3,Control,Science,7.25,A little,A little,3,87,16
+Ironbard ,Beatrix,Riedel,40,F,156.2,49.9,20.5,Tapte Fjell,4,Energy Drink,Science,7.5,Moderately,A little,7.5,96,16
+Providence ,Ole,Eklund,30,M,184,96,28.4,Arcadia,1,No Caffeine,Science,8.25,A little,A little,2.5,86,3
+Providence ,Ole,Eklund,30,M,184,96,28.4,Arcadia,2,Energy Drink,Science,8,Not at all,Moderately,4.5,82,3
+Providence ,Ole,Eklund,30,M,184,96,28.4,Arcadia,3,Control,Science,8.25,Not at all,Not at all,3,86,3
+Providence ,Ole,Eklund,30,M,184,96,28.4,Arcadia,4,No Sugar,Science,8.5,A little,A little,4.5,78,3
+Ironbard ,Signe,Carlsen,25,F,164,57.2,21.3,Hofn,1,Control,Tinkering,7.75,Not at all,Not at all,5.5,85,13
+Ironbard ,Signe,Carlsen,25,F,164,57.2,21.3,Hofn,2,Energy Drink,Tinkering,7.75,A little,Not at all,9,83,13
+Ironbard ,Signe,Carlsen,25,F,164,57.2,21.3,Hofn,3,No Caffeine,Tinkering,7.75,Not at all,Not at all,5,79,13
+Ironbard ,Signe,Carlsen,25,F,164,57.2,21.3,Hofn,4,No Sugar,Tinkering,7.75,Not at all,Not at all,5.5,79,13
+Providence ,Mayu,Jones,40,F,154,44,18.6,Arcadia,1,No Sugar,Tinkering,8.5,Moderately,Not at all,7,95,1
+Providence ,Mayu,Jones,40,F,154,44,18.6,Arcadia,2,Energy Drink,Tinkering,8,A little,Not at all,8,93,1
+Providence ,Mayu,Jones,40,F,154,44,18.6,Arcadia,3,No Caffeine,Tinkering,8.5,A little,A little,7.5,94,1
+Providence ,Mayu,Jones,40,F,154,44,18.6,Arcadia,4,Control,Tinkering,7.75,A little,A little,7,93,1

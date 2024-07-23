@@ -1,0 +1,608 @@
+---
+title: Effects of Caffeine and Sugar in Energy Drinks on Reading Comprehension among
+  University Students
+author: "Ritchie Bradley, Lauren Hawkins, and Zarah Mattox"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+citation_package: biblatex
+---
+
+```{r Setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE, 
+                      fig.align='center', fig.width=6, fig.height=2.2)
+
+## Package Library
+library(knitr)
+library(dplyr)
+library(ggplot2)
+library(table1)
+library(kableExtra)
+library(lme4)
+library(lmerTest)
+library(GGally)
+library(ggpubr)
+library(emmeans)
+library(pbkrtest)
+library(broom.mixed)
+library(effects)
+```
+
+# Abstract
+
+University students experience high demands for focus and time. To increase focus and reduce the need for sleep, many students turn to supplements or beverages, including energy drinks. This experiment examines the impact of four different types of energy drinks on student performance using a 100 point reading comprehension test as a measure for student achievement. Each student was exposed to each treatment and linear mixed models were fit to gauge the impact that the energy drink had on student comprehension scores. A statistically significant difference in comprehension scores was observed across treatments. The biggest gains in comprehension score was 6.3 points for an energy drink containing both sugar and caffeine $(p=5.76\times 10^{-9})$. The 95\% bootstrap confidence interval for increase in score for this type of energy drink was $(4.34, 8.25)$.
+
+```{r Data}
+## Set up data with correct types and orders
+data <- read.csv("Group5Islands.csv")
+
+## remove names (identifying information)
+data <- data[-57,] # remove participant that did not do experiment
+# data <- data %>% select(-First, -Last)
+
+## From Ritchie
+
+data <- data %>% select(-c("First", "Last"))
+fac <- c("Sex", "BirthVillage", "TrtOrder", "Treatment", "Dept", "Forgetful", 
+         "WornOut", "SubjectID")
+data[fac] <- lapply(data[fac], factor)
+
+#Unfortunately, some people opted out. Remove them from the study.
+data<- data[!is.na(data$Comprehension),]
+
+
+
+## change to factor type
+# data$Island <- as.factor(data$Island)
+# data$Sex <- as.factor(data$Sex)
+# data$BirthVillage <- as.factor(data$BirthVillage)
+# data$TrtOrder <- as.factor(data$TrtOrder)
+# data$SubjectID <- as.factor(data$SubjectID)
+# data$Treatment <- as.factor(data$Treatment)
+# data$Dept <- as.factor(data$Dept)
+# data$Forgetful <- as.factor(data$Forgetful)
+# data$WornOut <- as.factor(data$WornOut)
+# order levels of Forgetful and WornOut
+data$Forgetful <- factor(data$Forgetful, levels=c("Not at all", "A little", 
+                                                  "Moderately", "Quite a bit"))
+data$WornOut <- factor(data$WornOut, levels=c("Not at all", "A little", 
+                                              "Moderately", "Quite a bit", 
+                                              "Extreme"))
+caffsug <- data
+
+# Centered and Scaled data
+# # Change data set type to tibble
+# caffsug <- as_tibble(caffsug)
+# # Scale numeric data
+# data_num <- caffsug %>%
+#   select(2,4:6,11,14,15)
+# data_cat <- caffsug %>%
+#   select(1, 3, 7:10, 12, 13, 16)
+# # Add centered data to data set. It has the suffix .1 by default
+# caffsug_scaled <- cbind(scale(data_num), data_cat)
+```
+
+# Introduction
+
+It is widely assumed that many college students supplement caffeine (often in the form of energy drinks) to aid in studying for exams and finishing projects. Energy drinks are consumed worldwide, with the global market growing to 62.89 billion USD in 2023 (Yahoo! 2023). In exploration of this phenomenon, energy drink consumption among university students and the impact of energy drinks on consumer health outcomes have both been measured and investigated (Malinauskas et al., 2007 and van Dam et al., 2020). However, the effect of energy drink type on student performance has not been as widely studied. There are a wide range of energy drinks stocked in vending machines across the islands, but little is known about how the energy drinks impact student focus and anxiety levels. The researchers explored four different types of energy drinks on student performance across the islands of Ironbard, Providence, and Bonne Sante using a reading comprehension test as a measure for student achievement. The study examined this relationship to inform university students who consume energy drinks of their potential impacts on reading comprehension and anxiety.
+  
+Lists of students were acquired from the university on each Island. The researchers randomly sampled 12 students from the student populations on each island for a total of 36 students (Table 1). The average student age was 38.4 years old at the time of the study, with the youngest being 23 years old and the oldest 68 years old. The number of males to females sampled was almost 50:50, with 17 female students and 19 male students participating in the study. A wide variety of student majors were represented as well, with students from almost every department in the island universities represented. Health and literature students were the most represented, with 8 health and 5 literature students participating.
+
+\newpage
+
+```{r Table 1 Demographics}
+## Table 1 subset
+part.lev <- caffsug %>%
+              select(-Comprehension, -TrtOrder, -Treatment, -WornOut, -Anxious, 
+                     -Forgetful, -HoursSleep) %>%
+              distinct(SubjectID, .keep_all=TRUE)
+
+# Sample Information (Table 1)
+units(caffsug$Age) = "Years"
+units(caffsug$BMI) = "cm/kg"
+label(caffsug$Dept) = "Department"
+table1(~ Age+Sex+BMI+Dept+BirthVillage,
+       data=part.lev, caption="Participant Demographics",
+       topclass = "Rtable1-zebra")
+
+# table1 <- table1(~ Age+Sex+BMI+Dept+BirthVillage, data=part.lev)
+# 
+# 
+# kable(table1, booktabs=T, caption="Participant Demographics") %>%
+#   kable_styling(full_width = F, latex_options=c("striped", "repeat_header")) %>%
+#   row_spec(0, bold=TRUE) %>% row_spec(2, bold=TRUE) %>% row_spec(5, bold=TRUE) %>%
+#   row_spec(8, bold=TRUE) %>% row_spec(11, bold=TRUE)  %>% row_spec(22, bold=TRUE)
+```
+
+The primary goal of this study was to determine whether the levels of caffeine and sugar in various energy drinks affect academic achievement, specifically comprehension of content. Reading comprehension was selected as the response because all university students encounter reading comprehension challenges in their studies. Caffeine and sugar variations were singled out in this investigation because they are the biggest differences in formulation for energy drinks on the islands. Of secondary interest was whether these different formulations lead to increased anxiety in students.\ 
+
+# Methods
+
+## Study Design
+
+The sample for this study included 12 university students randomly sampled from each island's university for a total of 36 participants. A list of eligible students was obtained from each island university. Students were assigned a number and `R` was used to randomly sample until 12 consenting participants from each university were acquired. Participants completed an initial survey to provide demographic information. Participants were randomly assigned an order of treatments, again using `R`. Each participant completed 1 trial each day for 4 consecutive days, exposing each participant to all treatments. The treatments included caffeine-free and sugar-free energy drink 250mL (Control), sugar-free energy drink 250 mL (No Sugar), caffeine-free energy drink 250 mL (No Caffeine), and a standard energy drink 250 mL (Energy Drink). Table 2 clarifies the sugar and caffeine combinations present in each treatment. During each trial, the participant drank an energy drink and waited 5 minutes for the energy drink to take effect. Then the participant completed a 10-minute reading comprehension test followed by a survey that gathered information about their current state of rest, energy, and anxiety.
+
+```{r Table 2 Design Table}
+Caff <- c("Yes", "No")
+Yes <- c("Energy Drink 250 mL", "Energy Drink Caffeine-free 250mL")
+No <- c("Energy Drink Sugar-free 250mL", "Energy Drink Caffeine-free Sugar-free 250mL" )
+fdTable <- data.frame(Yes, No, row.names=c("Yes", "No"))
+
+kable(fdTable, align="c", booktabs=TRUE, caption="Sugar and caffeine in energy drinks") %>%
+  column_spec(1, bold=TRUE) %>%
+  row_spec(0, bold=TRUE) %>%
+  add_header_above(c(" "=1, "Sugar" = 2), bold=TRUE) %>%
+  pack_rows(index=c("Caffeine"=2))
+```
+
+One participant withdrew after completing the initial survey and before participating in any trials. Data for this participant have been removed since it did not address the research questions. The participant was replaced with another randomly selected participant from that university. Two participants withdrew from the study after participating in some of the trials. Data from these participants is included in the study.
+
+## Variables
+
+Initial participant information collected included the categorical variables sex, birth village, island, and department of study. Quantitative variables age, height in centimeters, and weight in kilograms were also collected. Height and weight were used to calculate the quantitative variable BMI. Categorical variables treatment order and a subject ID were randomly assigned to each participant after they agreed to participate in the study. Categorical variables for treatment type, how forgetful, and how worn out the participant felt were recorded for each trial. Quantitative variables recorded for each trial included reading comprehension score, hours slept the previous night, and self-reported anxious score. Table 3 lists variables and corresponding details.
+
+
+```{r Table 3 Description of Variables}
+### Table of Variables
+header <- c("Name", "Description", "Unit of Measure/Levels", "Role")
+vSex <- c("Sex", "Sex", "Female, Male", "Precision")
+vBirthVillage <- c("BirthVillage", "Birth village", "Arcadia, Bjurholm, Buyan, 
+                   Colmar, Hulluland, Helvit, Hofn, Tapte Fjell, Vardo", 
+                   "Precision")
+vIsland <- c("Island", "Island of residence", "Bonne Sante, Ironbard, 
+             Providence", "Precision")
+vDept <- c("Dept", "Department of study", "Agriculture, Arts, Business, 
+           Education, Health, Law, Literature, Mathematics, Science, Tinkering", 
+           "Precision")
+vAge <- c("Age", "Age", "Years", "Precision")
+vHeight..cm <- c("Height..cm", "Height", "Centimeters", "Precision")
+vWeight..kg <- c("Weight..kg", "Weight", "Kilograms", "Precision")
+vBMI <- c("BMI", "Body Mass Index", "kg/m^2", "Precision")
+vSubjectID <- c("SubjectID","Subject ID", "1 to 36", "Precision")
+vTrtOrder <- c("TrtOrder", "Treatment Order", "1, 2, 3, 4", "Precision")
+vTreatment <- c("Treatment", "Treatment", "Control, No Sugar, No Caffeine, 
+                Energy Drink", "Primary Explanatory Variable")
+vComprehension <- c("Comprehension", "Reading comprehension score", "0 to 100", 
+                    "Response")
+vHoursSleep <- c("HoursSleep", "Hours slept last night", "Hours", "Precision")
+vForgetful <- c("Forgetful","How forgetful do you feel?", "Not at all, A little, 
+                Moderately, Quite a bit, Extreme", "Precision")
+vWornOut <- c("WornOut","How worn out do you feel?", "Not at all, A little, 
+              Moderately, Quite a bit, Extreme", "Precision")
+vAnxious <- c("Anxious", "How anxious do you feel?", "1 (low) to 10 (high)", 
+              "Precision")
+
+varsTable <- rbind(vComprehension, vTreatment, vSex, vBirthVillage, vIsland, 
+                   vDept, vAge, vHeight..cm, vWeight..kg, vBMI, vSubjectID, 
+                   vTrtOrder, vHoursSleep, vForgetful, vWornOut, vAnxious)
+colnames(varsTable) <- header
+rownames(varsTable) <- NULL
+kable(varsTable, booktabs=T, caption="Description of Variables") %>%
+  kable_styling(full_width = F, latex_options=c("striped", "repeat_header")) %>%
+  row_spec(0, bold=TRUE) %>%
+  column_spec(3, width="15em") %>%
+  column_spec(4, width="8em")
+```
+
+
+## Methods and Models Used
+
+```{r Model selection, results=FALSE}
+#### Primary Research Question Model Selection
+## Empty Model
+mod0 <- lmer(Comprehension~1+(1|SubjectID), data=caffsug)
+summary(mod0)
+
+# mod0nested <- lmer(Comprehension~1+(1|SubjectID)+(1|Island:SubjectID), data=caffsug)
+# summary(mod0nested) 
+## raw ICC 0.7661794
+93.29/(93.29+28.47)
+
+mod1 <- lmer(Comprehension~Treatment + (1|SubjectID), data=caffsug)
+
+## Saturated Model
+mod2 <- lmer(Comprehension~Treatment + Age + Sex + BMI + TrtOrder + Dept + 
+               HoursSleep + Forgetful + WornOut + (1|SubjectID), data=caffsug)
+# summary(mod2)
+mod3 <- lmer(Comprehension~Treatment + Age + Sex + BMI + TrtOrder + HoursSleep + 
+               Forgetful + WornOut + (1|SubjectID), data=caffsug)
+# summary(mod3)
+mod4 <- lmer(Comprehension~Treatment + Sex + BMI + TrtOrder + HoursSleep + 
+               Forgetful + WornOut + (1|SubjectID), data=caffsug)
+# summary(mod4)
+mod5 <- lmer(Comprehension~Treatment + Sex + BMI + HoursSleep + Forgetful + 
+               WornOut + (1|SubjectID), data=caffsug)
+# summary(mod5)
+mod6 <- lmer(Comprehension~Treatment + Sex + BMI + HoursSleep + WornOut + 
+               (1|SubjectID), data=caffsug)
+# summary(mod6)
+mod7 <- lmer(Comprehension~Treatment + Sex + HoursSleep + WornOut + 
+               (1|SubjectID), data=caffsug)
+# summary(mod7)
+mod8 <- lmer(Comprehension~Treatment + HoursSleep + WornOut + (1|SubjectID), 
+             data=caffsug)
+# summary(mod8)
+### This is our selected model
+mod9 <- lmer(Comprehension~Treatment + HoursSleep + (1|SubjectID), data=caffsug)
+mod10 <- lmer(Comprehension~1 + Treatment + HoursSleep + (1|SubjectID), data=caffsug)
+summary(mod9)
+Model <- mod9
+drop1(mod9)
+
+# Model:
+# Comprehension ~ Treatment + HoursSleep + (1 | SubjectID)
+#             Sum Sq Mean Sq NumDF  DenDF F value    Pr(>F)    
+# Treatment  1123.57  374.52     3 102.17 21.7562 5.652e-11 ***
+# HoursSleep   79.64   79.64     1 135.97  4.6263   0.03325 *  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# $emmeans
+#  Treatment    emmean   SE   df lower.CL upper.CL
+#  Control        82.7 1.77 44.6     79.1     86.2
+#  Energy Drink   89.0 1.76 43.8     85.5     92.6
+#  No Caffeine    88.4 1.77 44.4     84.9     92.0
+#  No Sugar       83.5 1.77 44.4     79.9     87.1
+# 
+# Degrees-of-freedom method: kenward-roger 
+# Confidence level used: 0.95
+
+emmeans(mod9, pairwise ~Treatment)
+```
+
+```{r model selection using KRmodcomp, results=FALSE}
+KRmodcomp(mod0, mod9)
+KRmodcomp(mod9, mod8)
+```
+
+The analysis was performed in `R` version 4.1.2 using packages `lme4`, `lmerTest`, `pbkr`, `emmeans`, `tidyverse`, and `kableExtra`. Initial analysis of the data included assessing the data through summary statistics, figures, and factor analysis. Assessment of random effects indicated that nesting accounted for no additional variability in comprehension scores. The intraclass correlation for Subject ID random effect was found to be 0.766, indicating that 76.6% of the variation in comprehension scores can be attributed to our student grouping structure. Based on the experimental design and structure, a mixed model with studentID as a random effect was appropriate. 
+
+For the primary research question, how does sugar and caffeine in energy drinks affect comprehension scores, we began with a mixed model with comprehension score as the response, energy drink type as the explanatory variable, subject ID as the random effect, and all precision variables. Based on initial analysis, there was no evidence of interactions. Precision variables were eliminated in a stepwise manner using lowest AIC to simplify the model and identify significant precision variables. Model-based prediction plots were assessed (Appendix, Figures 3 and 4). Assumptions of normality, equal variance, and linearity were checked using residual plots and Q-Q plots and no concerns were apparent (See Appendix, Figure 5). 
+
+# Results
+
+The data indicates a difference in comprehension scores based on treatment (Figure 1). Full data from the trials are listed in Table 4.
+
+```{r Figure 1 Boxplot, fig.cap='Comprehension Scores by Treatment. Energy Drink shows the highest gain in comprehension score, followed by No Caffeine. No Sugar had gains similar to Control.'}
+# Boxplot Comprehension by Treatment
+p1 <- ggplot(aes(x = Treatment, y = Comprehension), data=caffsug)+
+  geom_boxplot(aes(fill = Treatment), color="black")+
+  theme(legend.position="none") +
+  labs(y="Comprehension Score")
+p1
+```
+
+\newpage
+
+```{r Table 4 Experimental Results}
+# Table 4 Experimental Results
+units(caffsug$Age) = "Years"
+units(caffsug$BMI) = "cm/kg"
+units(caffsug$Anxious) = "from 0-10"
+label(caffsug$HoursSleep) = "Hours Slept"
+label(caffsug$Anxious) = "Anxiety Level"
+label(caffsug$WornOut) = "Worn Out Level"
+label(caffsug$Forgetful) = "Forgetful Level"
+table1(~ Comprehension+Anxious+HoursSleep+
+         Forgetful+WornOut|Treatment,
+       data=caffsug, caption="Experimental Results",
+       topclass = "Rtable1-zebra")
+
+# Model Summary
+mod_null <- lmer(Comprehension~1+HoursSleep+(1|SubjectID), data=caffsug)
+mod_FINAL = lmer(Comprehension~1+Treatment+HoursSleep+(1|SubjectID),
+                 data = caffsug)
+```
+
+
+
+\newpage
+
+The selected model included Treatment and Hours Sleep as fixed effects and SubjectID as a random effect:
+
+$$\text{Score}_{ij} = 59.95 + \beta_{drink} + 2.99(\text{HoursSleep}) + u_j + \epsilon_{ij}$$
+where the random effect for StudentID is $u_j \sim N(0, 94.47)$, and the error term is $\epsilon_{ij} \sim N(0, 17.21)$, and
+
+
+\[ \beta_{\text{drink}} = 
+\begin{cases} 
+      6.32 &  \text{Energy Drink} \\
+      5.74 &  \text{No Caffeine} \\
+      0.82 &  \text{No Sugar} \\
+      0.00 &  \text{Control.} \\
+   \end{cases}
+\]
+
+There is evidence that the energy drink ($p=5.8\times 10^{-9}$) and caffeine-free energy drink ($p=1.3\times 10^{-7}$) improved reading comprehension scores using t-tests and Satterthwaite's method (Table 5). The estimated gain in reading comprehension scores is $6.323$ with a 95% bootstrap confidence interval $(4.446, 8.226)$ for university students who drank the energy drink. The estimated gain in reading comprehension scores is $5.737$ with a 95% bootstrap confidence interval $(3.812, 7.657)$ for university students who had an energy drink only containing sugar. This suggests that energy drinks with sugar improve reading comprehension scores among university students. A summary of coefficients is listed in Table 5 and 95\% bootstrap confidence intervals are available in Table 6. There is not sufficient evidence that sugar-free energy drinks improve test scores ($p=0.423$). 
+
+```{r Coefficient Table}
+kable(coef(summary(mod_FINAL)), digits=c(3,3,3,3,10), 
+      caption="Summary of coefficients of the Final Model")
+```
+
+```{r Bootstrap confidence intervals}
+set.seed(554)
+kable(confint(mod_FINAL, method="boot"), 
+      caption="Bootstrap Confidence Intervals for coefficients",digits=3)
+```
+
+HoursSleep was the only significant precision variable. Based on an F-test using Kenward-Roger's method, a model that included HoursSleep performed better than a model with no precision variables $(p=0.033)$. Hours Sleep had a positive effect on reading comprehension scores, so this was included as a precision variable in the mixed model analysis (Figure 2). Energy drinks with caffeine did not improve comprehension scores unless sugar was also present.
+
+```{r Figure 2, echo=FALSE, fig.cap='Reading Comprehension Score by Hours of Sleep.  Exploratory analysis suggested that more sleep improves reading comprehension score. Colored points indicate trials by treatment type. Dashed lines represent relationship between treatment, sleep, and reading comprehension score: no significant interaction is present. Black line indicates overall relationship between hours sleep and reading comprehension score.'}
+p2 <- ggplot(aes(x=HoursSleep, y=Comprehension), data=caffsug)+
+  geom_point(aes(color=Treatment),size=1.5, alpha=0.25)+
+  geom_smooth(method="lm", se=FALSE, aes(color=Treatment), size=.5, 
+              linetype="dashed")+
+  geom_smooth(method="lm", se=FALSE, size=1, color="black")+
+  labs(
+    x="Hours Slept (previous night)",
+    y="Comprehension Score",)
+p2
+```
+
+```{r Final Model, echo=FALSE, results='hide'}
+#Summary of the final model
+summary(mod_FINAL)
+
+# Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+# Formula: Comprehension ~ 1 + Treatment + HoursSleep + (1 | SubjectID)
+#    Data: caffsug
+# 
+# REML criterion at convergence: 898.2
+# 
+# Scaled residuals: 
+#      Min       1Q   Median       3Q      Max 
+# -2.59349 -0.45941  0.00802  0.56275  1.81679 
+# 
+# Random effects:
+#  Groups    Name        Variance Std.Dev.
+#  SubjectID (Intercept) 94.47    9.720   
+#  Residual              17.21    4.149   
+# Number of obs: 141, groups:  SubjectID, 36
+# 
+# Fixed effects:
+#                       Estimate Std. Error       df t value Pr(>|t|)    
+# (Intercept)            59.9475    10.5956 135.9142   5.658 8.71e-08 ***
+# TreatmentEnergy Drink   6.3233     0.9944 102.2307   6.359 5.76e-09 ***
+# TreatmentNo Caffeine    5.7369     1.0097 102.8012   5.682 1.25e-07 ***
+# TreatmentNo Sugar       0.8156     1.0147 103.2850   0.804   0.4234    
+# HoursSleep              2.9945     1.3922 135.9699   2.151   0.0333 *  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Correlation of Fixed Effects:
+#             (Intr) TrtmED TrtmNC TrtmNS
+# TrtmntEnrgD  0.072                     
+# TrtmntNCffn  0.107  0.513              
+# TretmntNSgr  0.136  0.514  0.520       
+# HoursSleep  -0.986 -0.121 -0.156 -0.184
+
+
+#Model-based pairwise comparisons by treatment
+emmeans(mod_FINAL, pairwise ~Treatment) ##Pairwise Compare
+
+# $emmeans
+#  Treatment    emmean   SE   df lower.CL upper.CL
+#  Control        82.7 1.77 44.6     79.1     86.2
+#  Energy Drink   89.0 1.76 43.8     85.5     92.6
+#  No Caffeine    88.4 1.77 44.4     84.9     92.0
+#  No Sugar       83.5 1.77 44.4     79.9     87.1
+# 
+# Degrees-of-freedom method: kenward-roger 
+# Confidence level used: 0.95 
+# 
+# $contrasts
+#  contrast                   estimate    SE  df t.ratio p.value
+#  Control - Energy Drink       -6.323 0.995 102  -6.358  <.0001
+#  Control - No Caffeine        -5.737 1.010 102  -5.680  <.0001
+#  Control - No Sugar           -0.816 1.015 103  -0.803  0.8527
+#  Energy Drink - No Caffeine    0.586 0.989 101   0.593  0.9340
+#  Energy Drink - No Sugar       5.508 0.990 101   5.561  <.0001
+#  No Caffeine - No Sugar        4.921 0.992 101   4.960  <.0001
+# 
+# Degrees-of-freedom method: kenward-roger 
+# P value adjustment: tukey method for comparing a family of 4 estimates 
+```
+
+
+```{r Secondary models, results=FALSE}
+##### Secondary Research Question Models
+## Does treatment affect Anxious rating?
+library(lmerTest)
+mod_anxious <- lmer(Anxious~Treatment+(1|SubjectID), data=caffsug)
+summary(mod_anxious)
+
+# Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+# Formula: Anxious ~ Treatment + (1 | SubjectID)
+#    Data: caffsug
+# 
+# REML criterion at convergence: 498.6
+# 
+# Scaled residuals: 
+#     Min      1Q  Median      3Q     Max 
+# -1.5450 -0.5999 -0.0139  0.3992  3.5690 
+# 
+# Random effects:
+#  Groups    Name        Variance Std.Dev.
+#  SubjectID (Intercept) 1.058    1.029   
+#  Residual              1.463    1.210   
+# Number of obs: 140, groups:  SubjectID, 36
+# 
+# Fixed effects:
+#                       Estimate Std. Error       df t value Pr(>|t|)    
+# (Intercept)             4.8693     0.2673  92.1336  18.216  < 2e-16 ***
+# TreatmentEnergy Drink   1.5194     0.2901 101.8879   5.238 8.79e-07 ***
+# TreatmentNo Caffeine   -0.5572     0.2902 102.0856  -1.920   0.0577 .  
+# TreatmentNo Sugar       1.3714     0.2902 102.0856   4.725 7.37e-06 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Correlation of Fixed Effects:
+#             (Intr) TrtmED TrtmNC
+# TrtmntEnrgD -0.543              
+# TrtmntNCffn -0.542  0.500       
+# TretmntNSgr -0.542  0.500  0.504
+
+## Does Anxious rating affect comprehension score?
+library(lmerTest)
+mod_testanxious <- lmer(Comprehension~Anxious+(1|SubjectID), data=caffsug)
+summary(mod_testanxious)
+
+# Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+# Formula: Comprehension ~ Anxious + (1 | SubjectID)
+#    Data: caffsug
+# 
+# REML criterion at convergence: 957.2
+# 
+# Scaled residuals: 
+#     Min      1Q  Median      3Q     Max 
+# -2.6430 -0.4687  0.1186  0.5598  2.1568 
+# 
+# Random effects:
+#  Groups    Name        Variance Std.Dev.
+#  SubjectID (Intercept) 93.44    9.666   
+#  Residual              28.83    5.369   
+# Number of obs: 140, groups:  SubjectID, 36
+# 
+# Fixed effects:
+#             Estimate Std. Error       df t value Pr(>|t|)    
+# (Intercept)  86.6354     2.4435 104.6083  35.455   <2e-16 ***
+# Anxious      -0.1358     0.3263 114.0411  -0.416    0.678    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Correlation of Fixed Effects:
+#         (Intr)
+# Anxious -0.728
+```
+
+Addressing secondary research questions, there is not sufficient evidence that anxiety affected comprehension test scores among university students ($p=0.678$). However, there is evidence that energy drinks with caffeine increase self-reported anxiety more than energy drinks without caffeine among university students. Compared to the control, the energy drink was associated with an increase of 1.5 in self-reported anxiety on a 5 point scale ($p=8.79\times 10^{-7}$). Sugar-free energy drink was associated with an increase of 1.4 in self-reported anxiety ($p=8.79\times 10^{-7}$). 
+
+\newpage
+
+The model relating self-reported anxiety to treatment is
+
+$$\text{Anxious}_{ij} = 4.87 + \beta_{drink} + u_j + \epsilon_{ij}$$
+
+where the random effect for StudentID is $u_j \sim N(0, 1.06)$, and the error term is $\epsilon_{ij} \sim N(0, 1.46)$, and
+
+\[ \beta_{\text{drink}} = 
+\begin{cases} 
+      1.52 &     \text{Energy Drink} \\
+      1.37 &    \text{No Sugar} \\
+      -0.56 &  \text{No Caffeine} \\
+      0 &   \text{Control.} \\
+   \end{cases}
+\]
+
+# Discussion
+
+Based on our experiment, energy drinks with sugar improve reading comprehension scores among Islands university students. The results of the study indicate that there is a significant difference in comprehension score for the energy drinks with sugar and those without (Figure 1). Caffeine's impact without sugar did not appear to significantly change comprehension score.
+
+Further research in four areas is recommended: testing beverages with sugar besides energy drinks, using different assessments instead of reading comprehension, adjusting the length of washout period and exploring extended exposure to treatment, and testing a broader population. Studies that focus on other beverage types with sugar such as soda compared to water or sugar-free soda may provide further information on the relationship between sugar and comprehension scores. Additionally, other subjects such as math or science could be incorporated into future studies to confirm that the positive effects of the energy drink were not specific to reading comprehension. Next, exploring the impact of a longer washout period is recommended. This washout period was selected due to constraints in study resources. It would be interesting to see washout period longer than 24 hours impacts results. Research into extended effects of these energy drinks is also recommended to understand consequences of long-term exposure to caffeine and sugar. Finally, a random sample of the entire population of the island would allow for generalization of results beyond university students to include everyone on the Islands.
+
+\newpage
+
+# References
+
+\hangindent=2em
+\hangafter=1
+Malinauskas, B. M., Aeby, V. G., Overton, R. F., Carpenter-Aeby, T., & Barber-Heidal, K. (2007, October 31). A survey of energy drink consumption patterns among college students. *Nutrition journal.* https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2206048/ \
+
+\hangindent=2em
+\hangafter=1
+van Dam, R. M., Hu, F. B., & Willett, W. C. (2020). Coffee, caffeine, and health. *New England Journal of Medicine, 383*(4), 369–378. https://doi.org/10.1056/nejmra1816604 \
+
+\hangindent=2em
+\hangafter=1
+Yahoo! (n.d.). *Energy Drinks Global Market Report 2023*. Yahoo! Finance. https://finance.yahoo.com/news/energy-drinks-global-market-report-140300782.html?fr=sycsrp_catchall 
+
+\newpage
+
+# Appendix
+
+## Demographic Survey Questions
+
+1. How much do you weigh in kilograms?
+2. Which village were you born in?
+3. How tall are you in centimeters?
+4. How many years old are you?
+5. Are you male or female?
+
+## Trial Survey Questions
+
+1. How forgetful do you feel right now?
+2. How worn-out do you feel right now?
+3. On a scale from 1 to 10, how anxious do you feel right now?
+4. How many hours did you sleep last night?
+
+## Sampling Method
+
+All University students from each Island were numbered. R was used to generate randomize the number sequence. Students were invited to participate using this sequence until 36 agreed to participate in the study. 
+
+
+## Model Based Prediction Plots
+
+```{r Model-Based Figure 1, fig.cap="Model-Based Prediction Plot for Treatment versus Comprehension. Figure 4 closely matches Figure 1 boxplot of data."}
+par(mfrow=c(1,2))
+plot(predictorEffects(mod_FINAL, ~Treatment), main="Treatment")
+```
+
+
+```{r Model-Based Figure 2, fig.cap="Model-Based Prediction Plots for HoursSleep versus Comprehension. Figure 5 closely matches Figure 2 showing association between hours sleep and comprehension data with linear trends."}
+plot(predictorEffects(mod_FINAL, ~HoursSleep), main="Hours Slept")
+```
+
+\newpage
+
+## Model Diagnostics
+
+```{r Model Diagnostics, fig.height=4, fig.cap='Model diagnostics. These plots indicate that assumptions of normality, equal variance, and linearity are appropriate.'}
+## Model Diagnostics
+library(ggpubr)
+# QQ-Plot
+diagd <- augment(mod_FINAL)
+p1 <- ggplot(diagd,aes(sample=.resid))+stat_qq()+
+  stat_qq_line(size=1.25, color="brown2")+
+  ggtitle("Q-Q Plot")
+
+# Resid vs Fitted
+p2 <- ggplot(diagd, aes(x=.fitted,y=.resid)) + geom_point(alpha=0.75) +
+  geom_hline(yintercept=0, color="brown2", size=1.25)+
+  xlab("Fitted") + ylab("Residuals")+
+  ggtitle("Residuals vs Fitted Values")+
+  geom_hline(yintercept = c(-2*4.149,2*4.149), color="navy", linetype="dashed", size=1.25)+
+  geom_hline(yintercept = c(-3*4.149,3*4.149), color="darkgreen", linetype="dashed", size=1.25)
+
+# Histogram of Resid
+resid_FINAL <- resid(mod_FINAL)
+p3 <- ggplot()+
+  geom_histogram(aes(x=resid_FINAL), fill="beige", color="black",
+                 data=data.frame(resid_FINAL))+
+  labs(
+    x="Residuals",
+    y="Frequency",
+    title="Histogram of Residuals"
+  )
+
+# Explanatory vs Resid
+p4 <- ggplot(aes(x=HoursSleep, y=.resid), data=diagd)+
+  geom_point()+
+  geom_smooth(method="lm", se=FALSE, color="brown2", size=1.5)+
+  labs(
+    x="Hours Slept", y="Residuals",
+    title="Hours Slept vs Residuals"
+  )
+
+ggarrange(p1, p2, p3, p4)
+```
+
+\newpage
+
+
+## R Code
+
+```{r show-code, ref.label = knitr::all_labels(), echo = TRUE, eval = FALSE}
+
+```
